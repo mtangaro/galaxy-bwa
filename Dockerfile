@@ -25,9 +25,7 @@ RUN mkdir /tmp/bwa
 WORKDIR /tmp/bwa
 
 RUN git clone https://github.com/galaxyproject/tools-devteam.git bwa_deps
-RUN cp bwa_deps/legacy/bwa_wrappers/bwa_wrapper.py /usr/tools/bin/bwa_wrapper.py
-RUN chmod a+x /usr/tools/bin/bwa_wrapper.py
+RUN cp bwa_deps/legacy/bwa_wrappers/bwa_wrapper.py /usr/bin/bwa_wrapper.py
+RUN chmod a+x /usr/bin/bwa_wrapper.py
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-WORKDIR /usr/tools/bin
