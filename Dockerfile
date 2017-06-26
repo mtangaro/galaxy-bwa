@@ -1,22 +1,28 @@
-# Base Image
-FROM biocontainers/biocontainers:latest
+FROM ubuntu
 
-# Metadata
-LABEL base.image="biocontainers:latest"
-LABEL version="2"
-LABEL software="bwa"
-LABEL software.version="0.7.15"
-LABEL description="Burrow-Wheeler Aligner for pairwise alignment between DNA sequences"
-LABEL website="http://bio-bwa.sourceforge.net/"
-LABEL documentation="http://bio-bwa.sourceforge.net/"
-LABEL license="http://bio-bwa.sourceforge.net/"
-LABEL tags="Genomics"
+MAINTAINER Marco-Antonio Tangaro <ma.tangaro@gmail.com>
 
-# Maintainer
-MAINTAINER Saulo Alves Aflitos <sauloal@gmail.com>
+RUN apt-get -y update
+RUN apt-get install -y wget gzip zip bzip2 python git
+RUN mkdir /usr/tools && cd /usr/tools
+RUN mkdir /usr/tools/bin
 
-RUN conda install bwa=0.7.15
+### install conda
+RUN wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+RUN echo "yes\nyes\n" > conda_inst_stdin.txt
+RUN bash Miniconda2-latest-Linux-x86_64.sh < conda_inst_stdin.txt
+RUN export PATH=/root/miniconda2/bin:$PATH
+ENV PATH /root/miniconda2/bin:$PATH RUN conda list
+RUN conda config --add channels r
+RUN conda config --add channels bioconda
 
-WORKDIR /data/
+### install bwa 0.5.9
+RUN conda install bwa=0.5.9
+
+### install bwa wrapper
+RUN wget https://raw.githubusercontent.com/galaxyproject/tools-devteam/master/legacy/bwa_wrappers/bwa_wrapper.py -O /usr/tools/bin/bwa_wrapper.py
+RUN /bin/chmod +x /usr/tools/bin/bwa_wrapper.py
+
+WORKDIR /usr/tools
 
 CMD ["bwa"]
