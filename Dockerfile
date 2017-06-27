@@ -12,8 +12,6 @@ RUN tar xvzf /tmp/bwa.tar.gz \
       && ln -s /tmp/bwa-0.5.9/bwa /usr/bin/
 
 ### get bwa wrapper
-#ADD https://raw.githubusercontent.com/galaxyproject/tools-devteam/master/legacy/bwa_wrappers/bwa_wrapper.py /usr/bin/bwa_wrapper.py
-#RUN chmod a+x /usr/bin/bwa_wrapper.py
 RUN mkdir /tmp/bwa
 WORKDIR /tmp/bwa
 RUN git clone https://github.com/galaxyproject/tools-devteam.git bwa_deps
